@@ -5,13 +5,25 @@
  */
 package jptv21library;
 
+import entity.Author;
+import entity.Book;
+import java.util.Arrays;
 import java.util.Scanner;
+import managers.BookManager;
 
 /**
  *
  * @author Melnikov
  */
 public class App {
+    private Book[] books;
+    private BookManager bookManager;
+
+    public App() {
+        this.books = new Book[0];
+        bookManager = new BookManager();
+    }
+    
     public void run(){
         boolean repeat = true;
         Scanner scanner = new Scanner(System.in);
@@ -34,6 +46,8 @@ public class App {
                     break;
                 case 1:
                     System.out.println("Задача 1. Добавить книгу");
+                    this.books = Arrays.copyOf(this.books, this.books.length+1);
+                    this.books[this.books.length-1] = bookManager.createBook();
                     break;
                 case 2:
                     System.out.println("Задача 2. Добавить читателя");
@@ -46,6 +60,7 @@ public class App {
                     break;
                 case 5:
                     System.out.println("Задача 5. Список книг");
+                    bookManager.printListBooks(books);
                     break;
                 default:
                     System.out.println("Выберите задачу из списка");
