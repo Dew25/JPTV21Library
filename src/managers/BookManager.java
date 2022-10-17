@@ -46,17 +46,17 @@ public class BookManager {
     
     public void printListBooks(Book[] books){
         for (int i = 0; i < books.length; i++) {
-                        Book book = books[i];
-                        System.out.printf(i+1+". Book{title = %s%n",book.getTitle());
-                        System.out.print("\tAuthors = [\n");
-                        for (int j = 0; j < book.getAuthors().length; j++) {
-                            Author author = book.getAuthors()[j];
-                            System.out.printf("\t\t%s %s%n"
-                                    ,author.getFirstname(),author.getLastname());
-                        }
-                        System.out.println("\t]");
-                    }
-                    System.out.println("   }");
+            Book book = books[i];
+            System.out.printf(i+1+". Book{title = %s%n",book.getTitle());
+            System.out.print("\tAuthors = [\n");
+            for (int j = 0; j < book.getAuthors().length; j++) {
+                Author author = book.getAuthors()[j];
+                System.out.printf("\t\t%s %s%n"
+                        ,author.getFirstname(),author.getLastname());
+            }
+            System.out.println("\t]");
+        }
+        System.out.println("   }");
     }
 
     public Book changeBook(Book book) {

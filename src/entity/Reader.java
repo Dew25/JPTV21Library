@@ -12,9 +12,17 @@ package entity;
 public class Reader {
     private String firstname;
     private String lastname;
+    private String phone;
 
     public Reader() {
     }
+
+    public Reader(String firstname, String lastname, String phone) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+    }
+
 
     public String getFirstname() {
         return firstname;
@@ -32,9 +40,21 @@ public class Reader {
         this.lastname = lastname;
     }
 
-    @Override
-    public String toString() {
-        return "Reader{" + "firstname=" + firstname + ", lastname=" + lastname + '}';
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
     
+    @Override
+    public String toString() {
+        return "Reader{" 
+                + "firstname=" + firstname 
+                + ", lastname=" + lastname 
+                + ", phone=" + phone 
+                + '}';
+    }
+
 }
