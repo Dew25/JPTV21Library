@@ -10,6 +10,7 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import managers.BookManager;
 import managers.HistoryManager;
@@ -79,7 +80,7 @@ public class App {
                     break;
                 case 4:
                     System.out.println("Задача 4. Вернуть книгу");
-                    
+                    histories = historyManager.returnBook(histories);
                     break;
                 case 5:
                     System.out.println("Задача 5. Список книг");
@@ -87,12 +88,7 @@ public class App {
                     break;
                 case 6:
                     System.out.println("Задача 6. Редактирование книги");
-                    System.out.println("Список книг: ");
-                    bookManager.printListBooks(books);
-                    System.out.print("Выберите номер книги для редактирования: ");
-                    int numBookForEdit = scanner.nextInt();
-                    scanner.nextLine();
-                    books[numBookForEdit-1] = bookManager.changeBook(books[numBookForEdit-1]);
+                    books = bookManager.changeBook(books);
                     break;
                 case 7:
                     System.out.println("Задача 7. Список читателей");
