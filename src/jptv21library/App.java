@@ -9,7 +9,9 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 import managers.BookManager;
@@ -54,6 +56,7 @@ public class App {
             System.out.println("6. Редактирование книги");
             System.out.println("7. Список читателей");
             System.out.println("8. Список выданных книг");
+            System.out.println("9. Список должников");
             System.out.print("Выберите номер задачи: ");
             int task = scanner.nextInt();
             scanner.nextLine();
@@ -98,6 +101,40 @@ public class App {
                     System.out.println("Задача 8. Список выданных книг");
                     historyManager.printListTakeOnBooks(this.histories);
                     break;    
+                case 9:
+                    System.out.println("Задача 9. Список должников");
+                    // в цикле проверить все history в histories
+                    // с каждым history.getTakeOnBook() сравнить текущую дату
+                    // если текущая дата больше даты выдачи на 14 дней, то  
+                    // допечатаем к строчке слово "должник"
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+                    for (int i = 0; i < histories.length; i++) {
+                        History history = histories[i];
+                        Long nowDate = new GregorianCalendar().getTimeInMillis();
+                        Long historyDate = history.getTakeOnBook().getTime();
+                        int twoWeek = 1000*60;//1000*3600*24*14;
+                        if(nowDate - historyDate >= twoWeek){
+                            System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s (%s)%n"
+                                ,i+1
+                                ,histories[i].getBook().getTitle()
+                                ,sdf.format(histories[i].getTakeOnBook())
+                                ,histories[i].getReader().getFirstname()
+                                ,histories[i].getReader().getLastname()
+                                ,"Должник"
+                            );
+                        }else{
+                            System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s%n"
+                                ,i+1
+                                ,histories[i].getBook().getTitle()
+                                ,sdf.format(histories[i].getTakeOnBook())
+                                ,histories[i].getReader().getFirstname()
+                                ,histories[i].getReader().getLastname()
+                            );
+                            
+                        }
+                        
+                    }
+                    break;    
                 default:
                     System.out.println("Выберите задачу из списка");
             }
@@ -106,8 +143,8 @@ public class App {
         System.out.println("Пока, ребята!");
     }
 
+    //тестовые методы для добавления книги и читателя при разработке
     private void testAddBook() {
-        
         Book book = new Book();
         book.setTitle("Book for editing");
         Author author = new Author();
@@ -120,10 +157,7 @@ public class App {
         this.books[this.books.length-1] = book;
     }
     private void testAddReader(){
-        
         Reader reader = new Reader("Ivan","Ivanov","54566556");
-//        reader.setFirstname("Ivan");
-//        reader.setLastname("Ivanov");
         this.readers = Arrays.copyOf(this.readers, this.readers.length+1);
         this.readers[this.readers.length-1] = reader;
     }
