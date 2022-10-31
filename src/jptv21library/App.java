@@ -10,9 +10,9 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import java.util.Arrays;
-import java.util.GregorianCalendar;
 import java.util.Scanner;
 import managers.BookManager;
+import managers.DataManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
 
@@ -27,12 +27,14 @@ public class App {
     private final BookManager bookManager;
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;
+    private final DataManager dataManager;
 
     public App() {
-        this.books = new Book[0];
+        dataManager = new DataManager();
+        this.books = dataManager.loadBooks();
         this.readers = new Reader[0];
         this.histories = new History[0];
-        testAddBook();
+        //testAddBook();
         testAddReader();
         bookManager = new BookManager();
         readerManager = new ReaderManager();
@@ -67,20 +69,25 @@ public class App {
                     System.out.println("Задача 1. Добавить книгу");
                     this.books = Arrays.copyOf(this.books, this.books.length+1);
                     this.books[this.books.length-1] = bookManager.createBook();
+                    //Сохранение массива с новой книгой в файл
+                    dataManager.saveBooks(this.books);
                     break;
                 case 2:
                     System.out.println("Задача 2. Добавить читателя");
                     this.readers = Arrays.copyOf(this.readers, this.readers.length+1);
                     this.readers[this.readers.length-1] = readerManager.createReader();
+                    //Сохранение массива с новым читателем в файл
                     break;
                 case 3:
                     System.out.println("Задача 3. Выдать книгу");
                     this.histories = Arrays.copyOf(this.histories, this.histories.length + 1);
                     this.histories[this.histories.length - 1] = historyManager.takeOnBook(books, readers);
+                    //Сохранение массива с новой историей в файл
                     break;
                 case 4:
                     System.out.println("Задача 4. Вернуть книгу");
                     histories = historyManager.returnBook(histories);
+                    //Сохранение массива с измененной историей в файл
                     break;
                 case 5:
                     System.out.println("Задача 5. Список книг");
