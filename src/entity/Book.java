@@ -15,6 +15,8 @@ import java.util.Arrays;
 public class Book implements Serializable{
     private String title;
     private Author[] authors;
+    private int qusntity;
+    private int count;
 
     public Book() {
     }
@@ -62,7 +64,49 @@ public class Book implements Serializable{
         return "Book{" 
                 + "title=" + title 
                 + ", authors=" + Arrays.toString(authors) 
+                + ", quantity="+ qusntity
+                + ", count=" + count
                 + '}';
+    }
+
+    public int getQusntity() {
+        return qusntity;
+    }
+
+    public void setQusntity(int qusntity) {
+        this.qusntity = qusntity;
+        this.count = qusntity;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public  void setCount(int count) {
+        this.count = count;
+    }
+    public boolean countPluss(){
+        if(count < qusntity){
+            count++;
+            return true;
+        }
+        return false;
+    }
+    public boolean countMinuss(){
+        if(count > 0){
+            count--;
+            return true;
+        }
+        return false;
+    }
+
+    public void quantityPluss(int number) {
+        qusntity += number;
+        count += number;
+    }
+
+    public void quantityMinus(int number) {
+        qusntity -= number;
     }
     
 }

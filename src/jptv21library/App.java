@@ -28,23 +28,24 @@ public class App {
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;
     private final DataManager dataManager;
+    private final Scanner scanner;
 
     public App() {
+        scanner = new Scanner(System.in);
         dataManager = new DataManager();
         this.books = dataManager.loadBooks();
-        this.readers = new Reader[0];
-        this.histories = new History[0];
+        this.readers = dataManager.loadReaders();
+        this.histories = dataManager.loadHistories();
         //testAddBook();
-        testAddReader();
+        //testAddReader();
         bookManager = new BookManager();
         readerManager = new ReaderManager();
         historyManager = new HistoryManager();
-       
+        
     }
     
     public void run(){
         boolean repeat = true;
-        Scanner scanner = new Scanner(System.in);
         do{
             System.out.println("Список задач: ");
             System.out.println("0. Закрыть приложение");
@@ -77,17 +78,20 @@ public class App {
                     this.readers = Arrays.copyOf(this.readers, this.readers.length+1);
                     this.readers[this.readers.length-1] = readerManager.createReader();
                     //Сохранение массива с новым читателем в файл
+                    dataManager.saveReaders(this.readers);
                     break;
                 case 3:
                     System.out.println("Задача 3. Выдать книгу");
                     this.histories = Arrays.copyOf(this.histories, this.histories.length + 1);
                     this.histories[this.histories.length - 1] = historyManager.takeOnBook(books, readers);
                     //Сохранение массива с новой историей в файл
+                    dataManager.saveHistories(this.histories);
                     break;
                 case 4:
                     System.out.println("Задача 4. Вернуть книгу");
                     histories = historyManager.returnBook(histories);
                     //Сохранение массива с измененной историей в файл
+                    dataManager.saveHistories(this.histories);
                     break;
                 case 5:
                     System.out.println("Задача 5. Список книг");

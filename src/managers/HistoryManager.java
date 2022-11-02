@@ -39,7 +39,9 @@ public class HistoryManager {
         bookManager.printListBooks(books);
         System.out.print("Выберите номер книги из списка: ");
         int numberBook = scanner.nextInt(); scanner.nextLine();
-        
+        if(!books[numberBook - 1].countMinuss()){
+            return null;
+        }
         history.setBook(books[numberBook - 1]);
         history.setReader(readers[numberReader - 1]);
         history.setTakeOnBook(new GregorianCalendar().getTime());
@@ -73,7 +75,9 @@ public class HistoryManager {
         this.printListTakeOnBooks(histories);
         System.out.print("Выберите номер книги для возврата: ");
         int numberToReturnBook = scanner.nextInt(); scanner.nextLine();
-        histories[numberToReturnBook - 1].setReturnBook(new GregorianCalendar().getTime());
+        if(histories[numberToReturnBook - 1].getBook().countPluss()){
+            histories[numberToReturnBook - 1].setReturnBook(new GregorianCalendar().getTime());
+        }
         return histories;
     }
     
