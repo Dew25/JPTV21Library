@@ -118,7 +118,6 @@ public class App {
     }
 
     private void testAddBook() {
-        
         Book book = new Book();
         book.setTitle("Book for editing");
         Author author = new Author();
@@ -131,7 +130,6 @@ public class App {
         this.books[this.books.length-1] = book;
     }
     private void testAddReader(){
-        
         Reader reader = new Reader("Ivan","Ivanov","54566556");
 //        reader.setFirstname("Ivan");
 //        reader.setLastname("Ivanov");

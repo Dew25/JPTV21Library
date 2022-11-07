@@ -14,7 +14,7 @@ import java.util.Scanner;
  * @author Melnikov
  */
 public class BookManager {
-    private Scanner scanner;
+    private final Scanner scanner;
 
     public BookManager() {
         this.scanner = new Scanner(System.in);
@@ -69,7 +69,7 @@ public class BookManager {
         int numBookForEdit = scanner.nextInt();
         scanner.nextLine();
         System.out.println("Авторов у книги "+books[numBookForEdit - 1].getAuthors().length);
-        System.out.println("Изменить количество авторов? (y/n)");
+        System.out.println("Изменение авторов? (y/n)");
         String edit = scanner.nextLine();
         if(edit.equals("y")){// Меняем количество авторов
             System.out.print("Введите новое количество авторов: ");
@@ -158,6 +158,4 @@ public class BookManager {
         return book;
     }
 
-      
-    
 }
