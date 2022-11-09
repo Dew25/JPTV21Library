@@ -57,6 +57,7 @@ public class App {
             System.out.println("6. Редактирование книги");
             System.out.println("7. Список читателей");
             System.out.println("8. Список выданных книг");
+            System.out.println("9. Список должников");
             System.out.print("Выберите номер задачи: ");
             int task = scanner.nextInt();
             scanner.nextLine();
@@ -108,7 +109,11 @@ public class App {
                 case 8:
                     System.out.println("Задача 8. Список выданных книг");
                     historyManager.printListTakeOnBooks(this.histories);
-                    break;    
+                    break;
+                case 9:
+                    System.out.println("Задача 9. Список должников");
+                    historyManager.printListDeptors(this.histories);
+                    break;
                 default:
                     System.out.println("Выберите задачу из списка");
             }

@@ -9,6 +9,7 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
@@ -17,9 +18,9 @@ import java.util.Scanner;
  * @author Melnikov
  */
 public class HistoryManager {
+    
     private final Scanner scanner = new Scanner(System.in);
-    
-    
+
     public History takeOnBook(Book[] books,Reader[] readers){
         History history = new History();
         // Вывести нумерованный список читателей
@@ -44,19 +45,19 @@ public class HistoryManager {
         }
         history.setBook(books[numberBook - 1]);
         history.setReader(readers[numberReader - 1]);
-        history.setTakeOnBook(new GregorianCalendar().getTime());
+        history.setDateTakeOnBook(new GregorianCalendar().getTime());
         return history;
     }
 
     public void printListTakeOnBooks(History[] histories){
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         for (int i = 0; i < histories.length; i++) {
-            if(histories[i].getReturnBook() == null && histories[i].getTakeOnBook() != null){
+            if(histories[i].getDateReturnBook() == null && histories[i].getDateTakeOnBook() != null){
                 try {
                     System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s%n"
                         ,i+1
                         ,histories[i].getBook().getTitle()
-                        ,sdf.format(histories[i].getTakeOnBook())
+                        ,sdf.format(histories[i].getDateTakeOnBook())
                         ,histories[i].getReader().getFirstname()
                         ,histories[i].getReader().getLastname()
                     );
@@ -76,9 +77,35 @@ public class HistoryManager {
         System.out.print("Выберите номер книги для возврата: ");
         int numberToReturnBook = scanner.nextInt(); scanner.nextLine();
         if(histories[numberToReturnBook - 1].getBook().countPluss()){
-            histories[numberToReturnBook - 1].setReturnBook(new GregorianCalendar().getTime());
+            histories[numberToReturnBook - 1].setDateReturnBook(new GregorianCalendar().getTime());
         }
         return histories;
+    }
+
+    public void printListDeptors(History[] histories) {
+        //в цыкле проверить все history в массиве
+        for (int i = 0; i < histories.length; i++) {
+            History history = histories[i];
+            // С каждой датой выдачи сравнить текущую дату:
+            // если тедущаяя дата больше даты выдачи книги на 14 дней (100 секунд для теста), 
+            // то допечатаем в строке вывода информации слово "должник"
+            Date dateTakeOnBook = history.getDateTakeOnBook();
+            long currentDate = new GregorianCalendar().getTimeInMillis();
+            //тест 100 секунд
+            long timeForDeptor = dateTakeOnBook.getTime() + 1000*100;
+            //1000*60*60*24*14 - 14 суток
+            // long timeForDeptor = dateTakeOnBook.getTime() + 1000*60*60*24*14;
+            if(history.getDateReturnBook() == null && currentDate > timeForDeptor){
+                System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s (%s)%n"
+                        ,i+1
+                        ,history.getBook().getTitle()
+                        ,history.getDateTakeOnBook()
+                        ,history.getReader().getFirstname()
+                        ,history.getReader().getLastname()
+                        ,"Должник"
+                ); 
+            }
+        }
     }
     
 }

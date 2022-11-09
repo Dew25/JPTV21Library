@@ -15,8 +15,8 @@ import java.util.Date;
 public class History implements Serializable{
     private Book book;
     private Reader reader;
-    private Date takeOnBook;
-    private Date returnBook;
+    private Date dateTakeOnBook;
+    private Date datReturnBook;
 
     public History() {
     }
@@ -37,20 +37,20 @@ public class History implements Serializable{
         this.reader = reader;
     }
 
-    public Date getTakeOnBook() {
-        return takeOnBook;
+    public Date getDateTakeOnBook() {
+        return dateTakeOnBook;
     }
 
-    public void setTakeOnBook(Date takeOnBook) {
-        this.takeOnBook = takeOnBook;
+    public void setDateTakeOnBook(Date dateTakeOnBook) {
+        this.dateTakeOnBook = dateTakeOnBook;
     }
 
-    public Date getReturnBook() {
-        return returnBook;
+    public Date getDateReturnBook() {
+        return datReturnBook;
     }
 
-    public void setReturnBook(Date returnBook) {
-        this.returnBook = returnBook;
+    public void setDateReturnBook(Date dateReturnBook) {
+        this.datReturnBook = dateReturnBook;
     }
 
     @Override
@@ -58,8 +58,8 @@ public class History implements Serializable{
         return "History{" 
                 + "book=" + book 
                 + ", reader=" + reader 
-                + ", takeOnBook=" + takeOnBook 
-                + ", returnBook=" + returnBook 
+                + ", takeOnBook=" + dateTakeOnBook 
+                + ", returnBook=" + datReturnBook 
                 + '}';
     }
     
