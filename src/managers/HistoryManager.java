@@ -21,7 +21,7 @@ public class HistoryManager {
     private final Scanner scanner = new Scanner(System.in);
     
     
-    public History takeOnBook(List<Book> books,Reader[] readers){
+    public History takeOnBook(List<Book> books,List<Reader> readers){
         History history = new History();
         // Вывести нумерованный список читателей
         // Выбрать указанного читателя из массива
@@ -44,22 +44,22 @@ public class HistoryManager {
             return null;
         }
         history.setBook(books.get(numberBook - 1));
-        history.setReader(readers[numberReader - 1]);
+        history.setReader(readers.get(numberReader - 1));
         history.setTakeOnBook(new GregorianCalendar().getTime());
         return history;
     }
 
-    public void printListTakeOnBooks(History[] histories){
+    public void printListTakeOnBooks(List<History> histories){
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-        for (int i = 0; i < histories.length; i++) {
-            if(histories[i].getReturnBook() == null && histories[i].getTakeOnBook() != null){
+        for (int i = 0; i < histories.size(); i++) {
+            if(histories.get(i).getReturnBook() == null && histories.get(i).getTakeOnBook() != null){
                 try {
                     System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s%n"
                         ,i+1
-                        ,histories[i].getBook().getTitle()
-                        ,sdf.format(histories[i].getTakeOnBook())
-                        ,histories[i].getReader().getFirstname()
-                        ,histories[i].getReader().getLastname()
+                        ,histories.get(i).getBook().getTitle()
+                        ,sdf.format(histories.get(i).getTakeOnBook())
+                        ,histories.get(i).getReader().getFirstname()
+                        ,histories.get(i).getReader().getLastname()
                     );
                 } catch (Exception e) {
                     System.out.println("Неправильный формат даты!");
@@ -69,15 +69,15 @@ public class HistoryManager {
             }
         }
     }
-    public History[] returnBook(History[] histories){
+    public List<History> returnBook(List<History> histories){
         //Выбрать номер книги из списка выданных книг
         //В выбранную книгу добавить дату возврата
         System.out.println("Список выданных книг:");
         this.printListTakeOnBooks(histories);
         System.out.print("Выберите номер книги для возврата: ");
         int numberToReturnBook = scanner.nextInt(); scanner.nextLine();
-        if(histories[numberToReturnBook - 1].getBook().countPluss()){
-            histories[numberToReturnBook - 1].setReturnBook(new GregorianCalendar().getTime());
+        if(histories.get(numberToReturnBook - 1).getBook().countPluss()){
+            histories.get(numberToReturnBook - 1).setReturnBook(new GregorianCalendar().getTime());
         }
         return histories;
     }

@@ -7,6 +7,7 @@ package managers;
 
 import entity.Book;
 import entity.Reader;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -26,9 +27,9 @@ public class ReaderManager {
         return reader;
     }
 
-    public void printListReaders(Reader[] readers) {
-        for (int i = 0; i < readers.length; i++) {
-            Reader reader = readers[i];
+    public void printListReaders(List<Reader> readers) {
+        for (int i = 0; i < readers.size(); i++) {
+            Reader reader = readers.get(i);
             System.out.printf(i+1+".%s %s %s%n"
                     ,reader.getFirstname()
                     ,reader.getLastname()

@@ -25,8 +25,10 @@ import managers.ReaderManager;
 public class App {
     //private Book[] books;
     private List<Book> books;
-    private Reader[] readers;
-    private History[] histories;
+    //private Reader[] readers;
+    private List<Reader> readers;
+    //private History[] histories;
+    private List<History> histories;
     private final BookManager bookManager;
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;
@@ -77,15 +79,13 @@ public class App {
                     break;
                 case 2:
                     System.out.println("Задача 2. Добавить читателя");
-                    this.readers = Arrays.copyOf(this.readers, this.readers.length+1);
-                    this.readers[this.readers.length-1] = readerManager.createReader();
+                    this.readers.add(readerManager.createReader());
                     //Сохранение массива с новым читателем в файл
                     dataManager.saveReaders(this.readers);
                     break;
                 case 3:
                     System.out.println("Задача 3. Выдать книгу");
-                    this.histories = Arrays.copyOf(this.histories, this.histories.length + 1);
-                    this.histories[this.histories.length - 1] = historyManager.takeOnBook(books, readers);
+                    this.histories.add(historyManager.takeOnBook(books, readers));
                     //Сохранение массива с новой историей в файл
                     dataManager.saveHistories(this.histories);
                     break;
@@ -135,7 +135,6 @@ public class App {
         Reader reader = new Reader("Ivan","Ivanov","54566556");
 //        reader.setFirstname("Ivan");
 //        reader.setLastname("Ivanov");
-        this.readers = Arrays.copyOf(this.readers, this.readers.length+1);
-        this.readers[this.readers.length-1] = reader;
+        this.readers.add(reader);
     }
 }
