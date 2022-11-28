@@ -7,6 +7,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,7 @@ import java.util.Arrays;
  */
 public class Book implements Serializable{
     private String title;
-    private Author[] authors;
+    private List<Author> authors;
     private int qusntity;
     private int count;
 
@@ -29,41 +30,26 @@ public class Book implements Serializable{
         this.title = title;
     }
 
-    public Author[] getAuthors() {
+    public List<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(Author[] authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
     
     public void addAuthor(Author auhtor){
-        Author[] newAuthors = Arrays.copyOf(authors, authors.length+1);
-        newAuthors[newAuthors.length-1]=auhtor;
-        this.authors = newAuthors;
+        this.authors.add(auhtor);
     }
     
     public void removeAuthor(int numberOfAuthor){
-        //обнуляем указанного автора (по индексу)
-        this.getAuthors()[numberOfAuthor-1]=null;
-        //создаем массив с количеством элементов на 1 меньше
-        Author[] newAuthors = new Author[this.getAuthors().length-1];
-        // в цикле копируем элементы в новый массив не учитывая обнуленную ячейку
-        int j = 0;
-        for (Author author : this.getAuthors()) {
-            if (author != null) {
-                newAuthors[j] = author;
-                j++;
-            }
-        }
-        //копируем ссылку на новый массив в книгу
-        this.setAuthors(newAuthors);
+        this.authors.remove(numberOfAuthor);
     }
     @Override
     public String toString() {
         return "Book{" 
                 + "title=" + title 
-                + ", authors=" + Arrays.toString(authors) 
+                + ", authors=" + Arrays.toString(authors.toArray()) 
                 + ", quantity="+ qusntity
                 + ", count=" + count
                 + '}';

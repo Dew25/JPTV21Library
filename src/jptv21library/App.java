@@ -9,7 +9,9 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import managers.BookManager;
 import managers.DataManager;
@@ -21,7 +23,8 @@ import managers.ReaderManager;
  * @author Melnikov
  */
 public class App {
-    private Book[] books;
+    //private Book[] books;
+    private List<Book> books;
     private Reader[] readers;
     private History[] histories;
     private final BookManager bookManager;
@@ -68,8 +71,7 @@ public class App {
                     break;
                 case 1:
                     System.out.println("Задача 1. Добавить книгу");
-                    this.books = Arrays.copyOf(this.books, this.books.length+1);
-                    this.books[this.books.length-1] = bookManager.createBook();
+                    books.add(bookManager.createBook());
                     //Сохранение массива с новой книгой в файл
                     dataManager.saveBooks(this.books);
                     break;
@@ -123,11 +125,11 @@ public class App {
         Author author = new Author();
         author.setFirstname("firstname");
         author.setLastname("lastname");
-        Author[] bookAuthors = new Author[1];
-        bookAuthors[0] = author;
+        List<Author> bookAuthors = new ArrayList<>();
+        bookAuthors.add(author);
         book.setAuthors(bookAuthors);
-        this.books = Arrays.copyOf(this.books, this.books.length+1);
-        this.books[this.books.length-1] = book;
+        this.books.add(book);
+        
     }
     private void testAddReader(){
         Reader reader = new Reader("Ivan","Ivanov","54566556");
