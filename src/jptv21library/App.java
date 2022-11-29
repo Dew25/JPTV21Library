@@ -10,10 +10,10 @@ import entity.Book;
 import entity.History;
 import entity.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import managers.BookManager;
+import managers.DataBaseManager;
 import managers.DataManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
@@ -32,12 +32,12 @@ public class App {
     private final BookManager bookManager;
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;
-    private final DataManager dataManager;
+    private final DataBaseManager dataManager;
     private final Scanner scanner;
 
     public App() {
         scanner = new Scanner(System.in);
-        dataManager = new DataManager();
+        dataManager = new DataBaseManager();
         this.books = dataManager.loadBooks();
         this.readers = dataManager.loadReaders();
         this.histories = dataManager.loadHistories();

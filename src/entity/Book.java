@@ -8,20 +8,38 @@ package entity;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  *
  * @author Melnikov
  */
+@Entity
 public class Book implements Serializable{
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
+    @OneToMany(cascade = {CascadeType.PERSIST})
     private List<Author> authors;
     private int qusntity;
     private int count;
 
     public Book() {
     }
+    
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+    
     public String getTitle() {
         return title;
     }
@@ -94,5 +112,7 @@ public class Book implements Serializable{
     public void quantityMinus(int number) {
         qusntity -= number;
     }
+
+    
     
 }
