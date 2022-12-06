@@ -15,6 +15,13 @@ public class JPTV21Library {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        try {
+            "base".equals(args[0]); 
+            App.saveToBase = true;
+        } catch (Exception e) {
+            App.saveToBase = false;
+        }
+       
         App app = new App();
         app.run();
     }

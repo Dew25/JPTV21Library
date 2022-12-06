@@ -9,6 +9,7 @@ import entity.Author;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import interfaces.DataPersistenceManage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,12 +17,14 @@ import managers.BookManager;
 import managers.basemanager.DataBaseManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
+import managers.filemanagers.FileDataManager;
 
 /**
  *
  * @author Melnikov
  */
 public class App {
+    public static boolean saveToBase = false;
     //private Book[] books;
     private List<Book> books;
     //private Reader[] readers;
@@ -31,12 +34,16 @@ public class App {
     private final BookManager bookManager;
     private final ReaderManager readerManager;
     private final HistoryManager historyManager;
-    private final DataBaseManager dataManager;
+    private final DataPersistenceManage dataManager;
     private final Scanner scanner;
 
     public App() {
         scanner = new Scanner(System.in);
-        dataManager = new DataBaseManager();
+        if(App.saveToBase){
+            dataManager = new DataBaseManager();
+        }else{
+            dataManager = new FileDataManager();
+        }
         this.books = dataManager.loadBooks();
         this.readers = dataManager.loadReaders();
         this.histories = dataManager.loadHistories();

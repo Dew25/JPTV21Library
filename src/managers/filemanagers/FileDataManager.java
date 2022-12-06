@@ -8,6 +8,7 @@ package managers.filemanagers;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import interfaces.DataPersistenceManage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,12 +24,13 @@ import java.util.logging.Logger;
  *
  * @author Melnikov
  */
-public class FileDataManager {
+public class FileDataManager implements DataPersistenceManage{
     
     private final String BOOKS_FILE = "MyBooks";
     private final String READERS_FILE = "MyReaders";
     private final String HISTORIES_FILE = "MyHistories";
     
+    @Override
     public void saveBooks(List<Book> books){
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(BOOKS_FILE);
@@ -43,6 +45,7 @@ public class FileDataManager {
         
     }
 
+    @Override
     public List<Book> loadBooks() {
         List<Book> books = new ArrayList<>();
         try {
@@ -59,6 +62,7 @@ public class FileDataManager {
         return books;
     }
 
+    @Override
     public void saveReaders(List<Reader> readers) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(READERS_FILE);
@@ -72,6 +76,7 @@ public class FileDataManager {
         }
     }
 
+    @Override
     public List<Reader>loadReaders() {
         List<Reader> readers = new ArrayList<>();
         try {
@@ -89,6 +94,7 @@ public class FileDataManager {
     }
 
 
+    @Override
     public void saveHistories(List<History> histories) {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(HISTORIES_FILE);
@@ -102,6 +108,7 @@ public class FileDataManager {
         }
     }
     
+    @Override
     public List<History> loadHistories() {
         List<History> histories = new ArrayList<>();
         try {

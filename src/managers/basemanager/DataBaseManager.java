@@ -8,6 +8,7 @@ package managers.basemanager;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import interfaces.DataPersistenceManage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,11 +22,12 @@ import javax.persistence.Persistence;
  *
  * @author Melnikov
  */
-public class DataBaseManager {
+public class DataBaseManager implements DataPersistenceManage{
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV21LibraryPU");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
     
+    @Override
     public void saveBooks(List<Book> books){
         tx.begin();
             for (int i = 0; i < books.size(); i++) {
@@ -39,6 +41,7 @@ public class DataBaseManager {
             }
         tx.commit();
     }
+    @Override
     public List<Book> loadBooks(){
         try {
             return em.createQuery("SELECT b FROM Book b")
@@ -48,6 +51,7 @@ public class DataBaseManager {
             return new ArrayList<>();
         }
     }
+    @Override
     public void saveReaders(List<Reader> readers) {
         tx.begin();
             for (int i = 0; i < readers.size(); i++) {
@@ -61,6 +65,7 @@ public class DataBaseManager {
         tx.commit();
         
     }
+    @Override
     public List<Reader> loadReaders(){
         try {
             return em.createQuery("SELECT r FROM Reader r")
@@ -70,6 +75,7 @@ public class DataBaseManager {
             return new ArrayList<>();
         }
     }
+    @Override
     public void saveHistories(List<History> histories) {
         tx.begin();
             for (int i = 0; i < histories.size(); i++) {
@@ -82,6 +88,7 @@ public class DataBaseManager {
             }
         tx.commit();
     }
+    @Override
     public List<History> loadHistories() {
         try {
             return em.createQuery("SELECT h FROM History h")
