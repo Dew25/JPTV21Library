@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package managers;
+package managers.basemanager;
 
 import entity.Book;
 import entity.History;
@@ -29,14 +29,14 @@ public class DataBaseManager {
     public void saveBooks(List<Book> books){
         tx.begin();
             for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
-            if(book.getId() == null){
-                em.persist(book);
-            }else{
-                em.merge(book);
+                Book book = books.get(i);
+                if(book.getId() == null){
+                    em.persist(book);
+                }else{
+                    em.merge(book);
+                }
+
             }
-            
-        }
         tx.commit();
     }
     public List<Book> loadBooks(){
@@ -49,26 +49,47 @@ public class DataBaseManager {
         }
     }
     public void saveReaders(List<Reader> readers) {
-        System.out.println(new Exception());
+        tx.begin();
+            for (int i = 0; i < readers.size(); i++) {
+                Reader reader = readers.get(i);
+                if(reader.getId() == null){
+                    em.persist(reader);
+                }else{
+                    em.merge(reader);
+                }
+            }
+        tx.commit();
+        
     }
     public List<Reader> loadReaders(){
         try {
-            throw new Exception();
+            return em.createQuery("SELECT r FROM Reader r")
+                    .getResultList();
         } catch (Exception ex) {
-            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, "Неудалось загрузить читателей", ex);
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
     }
     public void saveHistories(List<History> histories) {
-        System.out.println(new Exception());
+        tx.begin();
+            for (int i = 0; i < histories.size(); i++) {
+                History history = histories.get(i);
+                if(history.getId() == null && history.getReturnBook() == null){
+                    em.persist(history);
+                }else{
+                    em.merge(history);
+                }
+            }
+        tx.commit();
     }
     public List<History> loadHistories() {
         try {
-            throw new Exception();
+            return em.createQuery("SELECT h FROM History h")
+                    .getResultList();
         } catch (Exception ex) {
-            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DataBaseManager.class.getName()).log(Level.SEVERE, "Неудалось загрузить истории", ex);
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
     }
     
     

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package managers;
+package managers.filemanagers;
 
 import entity.Book;
 import entity.History;
@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  *
  * @author Melnikov
  */
-public class DataManager {
+public class FileDataManager {
     
     private final String BOOKS_FILE = "MyBooks";
     private final String READERS_FILE = "MyReaders";
@@ -36,9 +36,9 @@ public class DataManager {
             objectOutputStream.writeObject(books);
             objectOutputStream.flush();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет MyBooks файла", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Нет MyBooks файла", ex);
         } catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
         }
         
     }
@@ -50,11 +50,11 @@ public class DataManager {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             books = (List<Book>) objectInputStream.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE,"Нет файла MyBooks", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE,"Нет файла MyBooks", ex);
         } catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
         }
         return books;
     }
@@ -66,9 +66,9 @@ public class DataManager {
             objectOutputStream.writeObject(readers);
             objectOutputStream.flush();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет MyReaders файла", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Нет MyReaders файла", ex);
         } catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
         }
     }
 
@@ -79,11 +79,11 @@ public class DataManager {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             readers = (List<Reader>) objectInputStream.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE,"Нет файла MyReaders", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE,"Нет файла MyReaders", ex);
         } catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
         }
         return readers;
     }
@@ -96,9 +96,9 @@ public class DataManager {
             objectOutputStream.writeObject(histories);
             objectOutputStream.flush();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет MyHistories файла", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Нет MyHistories файла", ex);
         } catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода данных", ex);
         }
     }
     
@@ -109,11 +109,11 @@ public class DataManager {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             histories = (List<History>) objectInputStream.readObject();
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE,"Нет файла MyHistories", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE,"Нет файла MyHistories", ex);
         } catch (IOException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Ошибка ввода/вывода", ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
+            Logger.getLogger(FileDataManager.class.getName()).log(Level.SEVERE, "Нет такого класса", ex);
         }
         return histories;
     }

@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import managers.BookManager;
-import managers.DataBaseManager;
-import managers.DataManager;
+import managers.basemanager.DataBaseManager;
 import managers.HistoryManager;
 import managers.ReaderManager;
 
