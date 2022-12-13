@@ -8,6 +8,9 @@ package managers;
 import entity.Book;
 import entity.History;
 import entity.Reader;
+import entity.repository.BookFacade;
+import entity.repository.HistoryFacade;
+import entity.repository.ReaderFacade;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -19,9 +22,21 @@ import java.util.Scanner;
  */
 public class HistoryManager {
     private final Scanner scanner = new Scanner(System.in);
+    private final BookFacade bookFacade;
+    private final ReaderFacade readerFacade;
+    private final HistoryFacade historyFacade;
+
+    public HistoryManager() {
+        bookFacade = new BookFacade();
+        readerFacade = new ReaderFacade();
+        historyFacade = new HistoryFacade();
+    }
     
-    
-    public History takeOnBook(List<Book> books,List<Reader> readers){
+    public void takeOnBook(){
+//        BookFacade bookFacade = new BookFacade();
+//        List<Book> books = bookFacade.findAll();
+//        ReaderFacade readerFacade = new ReaderFacade();
+//        List<Reader> readers = readerFacade.findAll();
         History history = new History();
         // Вывести нумерованный список читателей
         // Выбрать указанного читателя из массива
@@ -31,31 +46,34 @@ public class HistoryManager {
         // Добавить дату выдачи книги в history
         System.out.println("Список читателей: ");
         ReaderManager readerManager = new ReaderManager();
-        readerManager.printListReaders(readers);
+        readerManager.printListReaders();
         System.out.print("Выберите номер читателя из списка: ");
         int numberReader = scanner.nextInt(); scanner.nextLine();
-        
+        Reader reader = readerFacade.find((long) numberReader);
         System.out.println("Список книг: ");
         BookManager bookManager = new BookManager();
-        bookManager.printListBooks(books);
+        bookManager.printListBooks();
         System.out.print("Выберите номер книги из списка: ");
         int numberBook = scanner.nextInt(); scanner.nextLine();
-        if(!books.get(numberBook - 1).countMinuss()){
-            return null;
+        Book book = bookFacade.find((long)numberBook);
+        if(!book.countMinuss()){
+            return;
         }
-        history.setBook(books.get(numberBook - 1));
-        history.setReader(readers.get(numberReader - 1));
+        history.setBook(book);
+        history.setReader(reader);
         history.setTakeOnBook(new GregorianCalendar().getTime());
-        return history;
+        historyFacade.save(history);
+        
     }
 
-    public void printListTakeOnBooks(List<History> histories){
+    public void printListTakeOnBooks(){
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        List<History> histories = historyFacade.findAll();
         for (int i = 0; i < histories.size(); i++) {
             if(histories.get(i).getReturnBook() == null && histories.get(i).getTakeOnBook() != null){
                 try {
                     System.out.printf("%d. %s. Выдана: %s. Книгу читает: %s %s%n"
-                        ,i+1
+                        ,histories.get(i).getId()
                         ,histories.get(i).getBook().getTitle()
                         ,sdf.format(histories.get(i).getTakeOnBook())
                         ,histories.get(i).getReader().getFirstname()
@@ -69,17 +87,20 @@ public class HistoryManager {
             }
         }
     }
-    public List<History> returnBook(List<History> histories){
+    public void returnBook(){
         //Выбрать номер книги из списка выданных книг
         //В выбранную книгу добавить дату возврата
         System.out.println("Список выданных книг:");
-        this.printListTakeOnBooks(histories);
+        this.printListTakeOnBooks();
         System.out.print("Выберите номер книги для возврата: ");
         int numberToReturnBook = scanner.nextInt(); scanner.nextLine();
-        if(histories.get(numberToReturnBook - 1).getBook().countPluss()){
-            histories.get(numberToReturnBook - 1).setReturnBook(new GregorianCalendar().getTime());
+        History history = historyFacade.find((long)numberToReturnBook);
+        if(history.getBook().countPluss()){
+            history.setReturnBook(new GregorianCalendar().getTime());
+        }else{
+            System.out.println("Книга не возвращена");
         }
-        return histories;
+        historyFacade.save(history);
     }
     
 }

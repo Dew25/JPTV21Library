@@ -7,6 +7,7 @@ package managers;
 
 import entity.Book;
 import entity.Reader;
+import entity.repository.ReaderFacade;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,10 +28,23 @@ public class ReaderManager {
         return reader;
     }
 
-    public void printListReaders(List<Reader> readers) {
+//    public void printListReaders(List<Reader> readers) {
+//        for (int i = 0; i < readers.size(); i++) {
+//            Reader reader = readers.get(i);
+//            System.out.printf(i+1+".%s %s %s%n"
+//                    ,reader.getFirstname()
+//                    ,reader.getLastname()
+//                    ,reader.getPhone()
+//            );
+//        }
+//    }
+    public void printListReaders() {
+        ReaderFacade readerFacade = new ReaderFacade();
+        List<Reader> readers = readerFacade.findAll();
         for (int i = 0; i < readers.size(); i++) {
             Reader reader = readers.get(i);
-            System.out.printf(i+1+".%s %s %s%n"
+            System.out.printf("%d. %s %s %s%n"
+                    ,reader.getId()
                     ,reader.getFirstname()
                     ,reader.getLastname()
                     ,reader.getPhone()

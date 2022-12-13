@@ -7,6 +7,7 @@ package managers;
 
 import entity.Author;
 import entity.Book;
+import entity.repository.BookFacade;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,9 +18,11 @@ import java.util.Scanner;
  */
 public class BookManager {
     private final Scanner scanner;
+    private final BookFacade bookFacade;
 
     public BookManager() {
         this.scanner = new Scanner(System.in);
+        bookFacade = new BookFacade();
     }
     
     public Book createBook(){
@@ -48,11 +51,12 @@ public class BookManager {
         return authors;
     }
     
-    public void printListBooks(List<Book> books){
+    public void printListBooks(){
+        List<Book> books = bookFacade.findAll();
         for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
             if(book.getCount() < 1) continue;
-            System.out.printf(i+1+". Book{title = %s%n",book.getTitle());
+            System.out.printf("%d. Book{title = %s%n",book.getId(),book.getTitle());
             System.out.print("\tAuthors = [\n");
             for (int j = 0; j < book.getAuthors().size(); j++) {
                 Author author = book.getAuthors().get(i);
@@ -64,13 +68,14 @@ public class BookManager {
         System.out.println("   }");
     }
 
-    public List<Book> changeBook(List<Book> books) {
+    public void changeBook() {
         System.out.println("Список книг: ");
-        this.printListBooks(books);
+        this.printListBooks();
         System.out.print("Выберите номер книги для редактирования: ");
         int numBookForEdit = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Авторов у книги "+books.get(numBookForEdit - 1).getAuthors().size());
+        Book editBook = bookFacade.find((long)numBookForEdit);
+        System.out.println("Авторов у книги "+editBook.getAuthors().size());
         System.out.println("Изменение авторов? (y/n)");
         String edit = scanner.nextLine();
         if(edit.equals("y")){// Меняем количество авторов
@@ -78,54 +83,54 @@ public class BookManager {
             int newCountAuthorsInBook = scanner.nextInt();
             scanner.nextLine();
          // количество авторов может быть больше или меньше.
-            if(newCountAuthorsInBook < books.get(numBookForEdit - 1).getAuthors().size()){
+            if(newCountAuthorsInBook < editBook.getAuthors().size()){
               //если меньше, выводим нумерованный список авторов и просим указать какого удалить
                // вычисляем на сколько меньше 
-                int deltaAuthors = books.get(numBookForEdit - 1).getAuthors().size() - newCountAuthorsInBook;
+                int deltaAuthors = editBook.getAuthors().size() - newCountAuthorsInBook;
                 for (int n = 0; n < deltaAuthors; n++) {
                     //удаляем лишних (deltaAuthors) авторов из книги
-                    books.get(numBookForEdit - 1).getAuthors().remove(n);
+                    editBook.getAuthors().remove(n);
                 }
             }else{
                 for (int i = 0; i < newCountAuthorsInBook; i++) {
                     //если счетчик больше количесвтва авторов
-                    if(i >= books.get(numBookForEdit - 1).getAuthors().size()){
+                    if(i >= editBook.getAuthors().size()){
                         // добаляем нового автора в книгу
                         Author newAuthor = new Author();
                         System.out.print("Введите имя автора "+(i+1)+": ");
                         newAuthor.setFirstname(scanner.nextLine());
                         System.out.print("Введите фамилию атора "+(i+1)+": ");
                         newAuthor.setLastname(scanner.nextLine());
-                        books.get(numBookForEdit - 1).addAuthor(newAuthor);
-                    }else if(i < books.get(numBookForEdit - 1).getAuthors().size()){
+                        editBook.addAuthor(newAuthor);
+                    }else if(i < editBook.getAuthors().size()){
                         // изменяем существующих авторов книги
                         System.out.println(i+1+"-й автор: "
-                            +books.get(numBookForEdit - 1).getAuthors().get(i).getFirstname()+" "+
-                                   books.get(numBookForEdit - 1).getAuthors().get(i).getLastname());
+                            +editBook.getAuthors().get(i).getFirstname()+" "+
+                                   editBook.getAuthors().get(i).getLastname());
                         System.out.print("Изменить имя автора? (y/n)");
                         edit = scanner.nextLine();
                         if(edit.equals("y")){
                             System.out.print("Введите новое имя атора: ");
-                            books.get(numBookForEdit - 1).getAuthors().get(i).setFirstname(scanner.nextLine());
+                            editBook.getAuthors().get(i).setFirstname(scanner.nextLine());
                         }    
                         System.out.print("Изменить фамилию автора? (y/n)");
                         edit = scanner.nextLine();
                         if(edit.equals("y")){
                             System.out.print("Введите новую фамилию атора: ");
-                            books.get(numBookForEdit - 1).getAuthors().get(i).setLastname(scanner.nextLine());
+                            editBook.getAuthors().get(i).setLastname(scanner.nextLine());
                         }    
                     }
                 }
             }
         }
-        System.out.println("Название книги: "+ books.get(numBookForEdit - 1).getTitle());
+        System.out.println("Название книги: "+ editBook.getTitle());
         System.out.println("Изменить название книги? (y/n)");
         edit = scanner.nextLine();
         if(edit.equals("y")){// Меняем название
             System.out.print("Введите другое название книги: ");
-            books.get(numBookForEdit - 1).setTitle(scanner.nextLine());
+            editBook.setTitle(scanner.nextLine());
         }
-        System.out.println("Количество экземпляров книги: "+ books.get(numBookForEdit - 1).getQusntity());
+        System.out.println("Количество экземпляров книги: "+ editBook.getQusntity());
         System.out.println("Изменить количество книг? (y/n)");
         edit = scanner.nextLine();
         if(edit.equals("y")){// Меняем количество
@@ -134,16 +139,15 @@ public class BookManager {
             if("+".equals(znak)){
                 System.out.print("Введите количество добавляемых экземпляров книги: ");
                 int number = scanner.nextInt();scanner.nextLine();
-                books.get(numBookForEdit - 1).quantityPluss(number);
+                editBook.quantityPluss(number);
             }
             if("+".equals(znak)){
                 System.out.print("Введите количество добавляемых экземпляров книги: ");
                 int number = scanner.nextInt();scanner.nextLine();
-                books.get(numBookForEdit - 1).quantityMinus(number);
+                editBook.quantityMinus(number);
             }
         }
-        
-        return books;
+        bookFacade.save(editBook);
     }
 
 
