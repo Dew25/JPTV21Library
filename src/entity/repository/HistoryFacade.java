@@ -17,25 +17,16 @@ import javax.persistence.Persistence;
  *
  * @author Melnikov
  */
-public class HistoryFacade {
+public class HistoryFacade extends AbstractFacade<History>{
     private final EntityManager em;
-    private final EntityTransaction tx;
-
     public HistoryFacade() {
+        super(History.class);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV21LibraryPU");
         em = emf.createEntityManager();
-        tx = em.getTransaction();
     }
-    public void save(History history){
-        tx.begin();
-            em.persist(history);
-        tx.commit();
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
-    public History find(Long id){
-        return em.find(History.class, id);
-    }
-    public List<History> findAll(){
-        return em.createQuery("SELECT h FROM History h")
-                .getResultList();
-    }
+    
 }

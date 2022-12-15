@@ -17,17 +17,23 @@ import javax.persistence.Persistence;
  *
  * @author Melnikov
  */
-public class BookFacade {
+public class BookFacade extends AbstractFacade<Book>{
     private final EntityManager em;
-    private final EntityTransaction tx;
+    
     
     public BookFacade() {
+        super(Book.class);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV21LibraryPU");
         em = emf.createEntityManager();
-        tx = em.getTransaction();
+        
     }
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
+    }
+    @Override
     public void save(Book book){
-        tx.begin();
+        em.getTransaction().begin();
             for (int i = 0; i < book.getAuthors().size(); i++) {
                 Author author = book.getAuthors().get(i);
                 if(author.getId() == null){
@@ -41,14 +47,10 @@ public class BookFacade {
             }else{
                 em.merge(book);
             }
-        tx.commit();
+        em.getTransaction().commit();
     }
-    public Book find(Long id){
-        return em.find(Book.class, id);
-    }
-    public List<Book> findAll(){
-        return em.createQuery("SELECT b FROM Book b")
-                .getResultList();
-    }
+    
+
+    
     
 }

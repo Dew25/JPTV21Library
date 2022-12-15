@@ -16,27 +16,18 @@ import javax.persistence.Persistence;
  *
  * @author Melnikov
  */
-public class ReaderFacade {
+public class ReaderFacade extends AbstractFacade<Reader>{
     private final EntityManager em;
-    private final EntityTransaction tx;
 
     public ReaderFacade() {
+        super(Reader.class);
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPTV21LibraryPU");
         em = emf.createEntityManager();
-        tx = em.getTransaction();
     }
     
-    public void save(Reader reader){
-        tx.begin();
-            em.persist(reader);
-        tx.commit();
-    }
-    public Reader find(Long id){
-        return em.find(Reader.class, id);
-    }
-    public List<Reader> findAll(){
-        return em.createQuery("SELECT r FROM Reader r")
-                .getResultList();
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
     
     
